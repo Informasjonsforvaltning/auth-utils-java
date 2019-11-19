@@ -11,15 +11,13 @@ fun startServer(args: Array<String>) {
         }
 
         mockServer.startMockServer();
-        println("Authmock started on port $args[0")
 
         } catch (e: Exception) {
-        var message = "Too many arguments found"
-        if (e is NumberFormatException) {
-        message = "First argument [port] must be an integer"
-        }
-
-        throw IllegalArgumentException(message)
+                if (e is NumberFormatException) {
+                        throw java.lang.IllegalArgumentException("First argument [port] must be an integer")
+                } else {
+                        throw e
+                }
         }
 
 }

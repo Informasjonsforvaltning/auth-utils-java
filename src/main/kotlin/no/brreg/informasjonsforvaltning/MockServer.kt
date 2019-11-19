@@ -42,6 +42,7 @@ class MockServer {
                     .willReturn(okJson("{ token: ${JwtToken.buildRoot(config.type)}}"))
             )
             mockServer.start()
+            println("Auth server is listening on port ${config.port} with type value ${config.type}")
         }
     }
 
