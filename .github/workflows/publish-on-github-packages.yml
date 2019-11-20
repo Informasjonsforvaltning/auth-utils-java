@@ -27,7 +27,7 @@ jobs:
         run: |
           export IMAGE_ID=$(docker images brreg/auth-utils-java --format="{{.ID}}")
           export REPO_LOWER_CASE=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
-          export IMAGE_TAG=docker.pkg.github.com/$REOP_LOWER_CASE/$IMAGE_NAME:latest
+          export IMAGE_TAG=docker.pkg.github.com/$REPO_LOWER_CASE/$IMAGE_NAME:latest
           docker tag $IMAGE_ID $IMAGE_TAG
           docker push $IMAGE_TAG
 
