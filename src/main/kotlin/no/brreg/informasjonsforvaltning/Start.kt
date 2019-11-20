@@ -1,23 +1,15 @@
 package no.brreg.informasjonsforvaltning
 
-fun startServer(args: Array<String>) {
+import no.brreg.informasjonsforvaltning.jwk.JwtToken.addAudience
 
-        try {
-                val mockServer = when (args.size) {
-                        0 -> MockServer(ServerConfig())
-                        1 -> MockServer(ServerConfig(port = args[0].toInt()))
-                        2 -> MockServer(ServerConfig(args[0].toInt(), args[1]))
-                        else -> throw IllegalArgumentException()
-        }
+fun startServer() {
 
+        val port: Int  = (System.getenv("PORT") ?: System.getProperty("PORT") ?: "8084").toInt()
+        val type : String = System.getenv("TYPE") ?: System.getProperty("TYPE") ?: "organisation"
+        val aud : String? = System.getenv("AUD") ?: System.getProperty("AUD")
+        if(aud!=null) {addAudience(aud)}
+
+        val mockServer = MockServer(ServerConfig(port, type))
         mockServer.startMockServer();
-
-        } catch (e: Exception) {
-                if (e is NumberFormatException) {
-                        throw java.lang.IllegalArgumentException("First argument [port] must be an integer")
-                } else {
-                        throw e
-                }
-        }
 
 }

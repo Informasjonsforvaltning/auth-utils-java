@@ -7,19 +7,27 @@ import java.util.*
 
 object JwtToken {
     private val exp = Date().time + 120 * 3600
-    private val aud = listOf<String>("a-backend-service","concept-catalogue","organization-catalogue ","fdk-admin-harvester","registration-api")
+    private var aud : MutableList<String> = mutableListOf<String>("a-backend-service","concept-catalogue","organization-catalogue ","fdk-admin-harvester","registration-api")
     private var authorities: String? = null
 
-    public fun buildRead(path: String = "publisher"): String{
+    fun addAudience(addValues: String){
+        val values = addValues.split(",")
+        values.forEach {
+            aud.add(it)
+        }
+        println("[INFO]$addValues added to audience jwt field")
+    }
+
+    fun buildRead(path: String = "publisher"): String{
         authorities = getAccess(path, AccessType.READ)
         return buildToken()
     }
 
-    public fun buildWrite(path: String = "publisher"): String{
+    fun buildWrite(path: String = "publisher"): String{
         authorities = getAccess(path, AccessType.WRITE)
         return buildToken()
     }
-    public fun buildRoot(path: String = "publisher"): String{
+    fun buildRoot(path: String = "publisher"): String{
         authorities = getAccess(path, AccessType.ROOT)
         return buildToken()
     }

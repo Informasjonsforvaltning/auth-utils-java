@@ -7,6 +7,7 @@ VOLUME /tmp
 ARG JAR_FILE
 ENV PORT 8084
 ENV TYPE publisher
+ENV isDocker yes
 ADD target/${JAR_FILE} app.jar
 RUN sh -c 'touch /app.jar'
-CMD java -jar $JAVA_OPTS app.jar $PORT $TYPE
+CMD java -Denvironment=$ENV -jar $JAVA_OPTS app.jar
