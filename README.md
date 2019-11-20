@@ -66,3 +66,4 @@ In docker you change type by setting the env variable `AUD`<br>
 Update `val audience` in [JwtToken.java](src/main/kotlin/no/brreg/informasjonsforvaltning/jwk/JwtToken.kt) 
 and rebuild image
 
+See [FAQ](./FAQ.md) for more on audience and access string
