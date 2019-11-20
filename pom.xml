@@ -15,7 +15,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.12</junit.version>
         <main.class>no.brreg.informasjonsforvaltning.Main</main.class>
-        <docker.image.name>brreg/auth-utils-java</docker.image.name>
+        <docker.image.name>auth-utils-java</docker.image.name>
         <docker.image.tag>latest</docker.image.tag>
     </properties>
     <dependencies>

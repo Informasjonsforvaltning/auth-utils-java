@@ -8,7 +8,7 @@ jobs:
     name: Building docker image
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: brreg/auth-utils-java
+      IMAGE_NAME: auth-utils-java
     steps:
       - uses: actions/checkout@v1
 
@@ -25,7 +25,7 @@ jobs:
 
       - name: Push to registry
         run: |
-          export IMAGE_ID=$(docker images brreg/auth-utils-java --format="{{.ID}}")
+          export IMAGE_ID=$(docker images auth-utils-java --format="{{.ID}}")
           export REPO_LOWER_CASE=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
           export IMAGE_TAG=docker.pkg.github.com/$REPO_LOWER_CASE/$IMAGE_NAME:latest
           docker tag $IMAGE_ID $IMAGE_TAG
