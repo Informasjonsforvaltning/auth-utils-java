@@ -27,8 +27,8 @@ jobs:
         run: |
           export IMAGE_ID=$(docker images brreg/auth-utils-java --format="{{.ID}}")
           export IMAGE_TAG=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME:latest
-          docker tag IMAGE_ID IMAGE_TAG
-          docker push IMAGE_TAG
+          docker tag $IMAGE_ID $IMAGE_TAG
+          docker push $IMAGE_TAG
 
 
 
