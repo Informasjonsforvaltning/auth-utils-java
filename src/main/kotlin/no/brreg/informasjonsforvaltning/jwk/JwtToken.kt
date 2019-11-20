@@ -7,7 +7,7 @@ import java.util.*
 
 object JwtToken {
     private val exp = Date().time + 120 * 3600
-    private val aud = listOf<String>("a-backend-service","concept-catalogue")
+    private val aud = listOf<String>("a-backend-service","concept-catalogue","organization-catalogue ","fdk-admin-harvester","registration-api")
     private var authorities: String? = null
 
     public fun buildRead(path: String = "publisher"): String{
