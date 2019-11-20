@@ -1,8 +1,6 @@
 name: Publish Docker Image
 on:
     push:
-    # use master branch for building image
-    branches
       - master
 jobs:
   build_image:
