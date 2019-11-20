@@ -34,11 +34,11 @@ class MockServer {
                     .willReturn(okJson("{ token: ${JwtToken.buildRead(config.type)}}"))
             )
             mockServer.stubFor(
-                get(urlEqualTo("jwt//write"))
+                get(urlEqualTo("/jwt/write"))
                     .willReturn(okJson("{ token: ${JwtToken.buildWrite(config.type)}}"))
             )
             mockServer.stubFor(
-                get(urlEqualTo("jwt//root"))
+                get(urlEqualTo("/jwt/root"))
                     .willReturn(okJson("{ token: ${JwtToken.buildRoot(config.type)}}"))
             )
             mockServer.start()
