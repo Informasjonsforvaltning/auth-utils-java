@@ -19,7 +19,7 @@ Run `mvn clean install` to build the project
 `java -jar ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`      
 
 2. Running in docker container <br>
-`docker container run -p 8084:8084 --name auth brreg/auth-utils-java`
+`docker container run -p 8084:8084 --name auth auth-utils-java`
 
 ####Add module as jwk store in spring
 In application-dev.properties file add line:<br>
@@ -40,7 +40,7 @@ In commandline<br>
 `java -jar -DPORT=8201 ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar 8021`
 
 In docker: change hostport mapping <br>
-`docker container run -p 8021:8084 --name auth brreg/auth-utils-java`￿<br><br>
+`docker container run -p 8021:8084 --name auth auth-utils-java`￿<br><br>
 
 #### Change access string type
 *format: `[type]:[orgnumber]:[rights]`*<br>
@@ -50,7 +50,7 @@ In commandline:
 `java -jar -DTYPE=different ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`<br>
 
 In docker you change type by setting the env variable `TYPE`<br>
-`docker container run -p 8084:8084 -e TYPE='different' --name auth brreg/auth-utils-java`
+`docker container run -p 8084:8084 -e TYPE='different' --name auth auth-utils-java`
 
 ### Audience
 #### Updating audience temporarily
@@ -58,11 +58,11 @@ In commandline seoerated by comma:
 `java -jar -DAUD=other-audience,yet-another-audience ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`<br>
 
 In docker you change type by setting the env variable `AUD`<br>
-`docker container run -p 8084:8084 -e AUD=other-audience,yet-another-audience --name auth brreg/auth-utils-java`
+`docker container run -p 8084:8084 -e AUD=other-audience,yet-another-audience --name auth auth-utils-java`
 
 
 
-#### Updating audience 
+#### Updating audience permanently
 Update `val audience` in [JwtToken.java](src/main/kotlin/no/brreg/informasjonsforvaltning/jwk/JwtToken.kt) 
 and rebuild image
 
