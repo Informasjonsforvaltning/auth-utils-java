@@ -37,7 +37,7 @@ set env variable `SPRING_ACTIVE_PROFILE￿` to `dev` on startup
 *Default: 8084* <br> 
 
 In commandline<br>
-`java -jar -DPORT=8201 ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar 8021`
+`java -jar -DPORT=8201 ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
 In docker: change hostport mapping <br>
 `docker container run -p 8021:8084 --name auth auth-utils-java`￿<br><br>
