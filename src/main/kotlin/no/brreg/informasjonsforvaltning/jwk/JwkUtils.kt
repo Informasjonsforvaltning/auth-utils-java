@@ -60,7 +60,7 @@ class JwkToken(
                 "     \"kty\": \"$kty\",\n" +
                 "     \"alg\": \"RS256\",\n" +
                 "     \"use\": \"$use\",\n" +
-                "     \"n\": \"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw52fY3bcQfa8ZxE3yreogixiA4TgD8kHP6P40BdWKw3VyOI8p8gD0quH0Eqt4MVPxAuZkn4wxaIFZkDXHpI1ihextXGUbhiysx0UJDRbYsQwNI9WwXP9640igwQ8Gglj1V5PBll8WECgfzPBJpJLWYei8EwA8T9cuJoKo6P47vtvi3B81ib2fXhmJkgYVR8eXh04O2zFB5Kn5b5QHKkjIXjtsEyL13oLGBPBom2TJfAY3HQoalWhLUsHcQwiP95lBqK4pYaFLPfNVvYJlKkdkcrj7Z6V6hPe3dv6JvZRALpgPInlEi4T55WnROFtdyYIb540UtPpXHklWsO7Wk88hwIDAQAB\",\n" +
+                "     \"n\": \"$n\",\n" +
                 "     \"e\": \"$e\"\n" +
                 "   }\n" +
                 " ]\n" +
