@@ -2,6 +2,9 @@ package no.brreg.informasjonsforvaltning
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
+import no.brreg.informasjonsforvaltning.extensions.JwtReadTransformer
+import no.brreg.informasjonsforvaltning.extensions.JwtWriteTransformer
 import no.brreg.informasjonsforvaltning.jwk.JwkStore
 import no.brreg.informasjonsforvaltning.jwk.JwtToken
 
@@ -10,7 +13,9 @@ class MockServer {
     private val config : ServerConfig;
 
      constructor(config: ServerConfig){
-        mockServer = WireMockServer((config.port))
+        mockServer = WireMockServer(wireMockConfig()
+            .extensions(JwtReadTransformer::class.java,JwtWriteTransformer::class.java)
+            .port(config.port))
         this.config = config
     }
 
@@ -30,15 +35,17 @@ class MockServer {
             )
 
             mockServer.stubFor(
-                get(urlEqualTo("/jwt/read"))
-                    .willReturn(okJson("{ token: ${JwtToken.buildRead(config.type)}}"))
+                get(urlMatching("/jwt/read[a-z0-9\\?\\=\\&]*"))
+                    .willReturn(aResponse().withTransformers("jwt-read-transform"))
             )
+
             mockServer.stubFor(
-                get(urlEqualTo("/jwt/write"))
-                    .willReturn(okJson("{ token: ${JwtToken.buildWrite(config.type)}}"))
+                get(urlMatching("/jwt/write[a-z0-9\\?\\=\\&]*"))
+                    .willReturn(aResponse().withTransformers("jwt-write-transform"))
             )
+
             mockServer.stubFor(
-                get(urlEqualTo("/jwt/admin"))
+                get(urlMatching("/jwt/admin[a-z\\?\\=]*"))
                     .willReturn(okJson("{ token: ${JwtToken.buildRoot(config.type)}}"))
             )
             mockServer.start()

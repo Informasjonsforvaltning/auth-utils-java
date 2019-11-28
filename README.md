@@ -52,14 +52,22 @@ In commandline:
 In docker you change type by setting the env variable `TYPE`<br>
 `docker container run -p 8084:8084 -e TYPE='different' --name auth auth-utils-java`
 
+In request:<br>
+If you need a token for a different organisation or type, you can append pararmeters `type` and `org` to your
+jwt request<br>
+```curl localhost:8084/jwt/read?org=6786876``` 
+```curl localhost:8084/jwt/write?org=6786876&type=special``` 
+```curl localhost:8084/jwt/write?type=special``` 
+
+
+
 ### Audience
 #### Updating audience temporarily
-In commandline seoerated by comma:
+In commandline seoerated by comma:<br>
 `java -jar -DAUD=other-audience,yet-another-audience ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`<br>
 
 In docker you change type by setting the env variable `AUD`<br>
 `docker container run -p 8084:8084 -e AUD=other-audience,yet-another-audience --name auth auth-utils-java`
-
 
 
 #### Updating audience permanently
