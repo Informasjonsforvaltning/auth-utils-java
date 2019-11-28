@@ -6,7 +6,6 @@ import java.util.*
 
 
 object JwtToken {
-    private val exp = Date().time + 120 * 3600
     private var aud : MutableList<String> = mutableListOf<String>("a-backend-service","concept-catalogue","organization-catalogue ","fdk-admin-harvester","registration-api")
     private var authorities: String? = null
 
@@ -36,7 +35,7 @@ object JwtToken {
     private fun buildToken() : String{
         val claimset = JWTClaimsSet.Builder()
                 .audience(aud)
-                .expirationTime(Date(exp))
+                .expirationTime(Date(Date().time + 3600 * 3600))
                 .claim("user_name","1924782563")
                 .claim("name", "TEST USER")
                 .claim("given_name", "TEST")
