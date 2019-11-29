@@ -21,7 +21,7 @@ Run `mvn clean install` to build the project
 2. Running in docker container <br>
 `docker container run -p 8084:8084 --name auth auth-utils-java`
 
-####Add module as jwk store in spring
+#### Add module as jwk store in spring
 In application-dev.properties file add line:<br>
 `security.oauth2.resource.jwk.key-set-uri: http://localhost:8084/jwk`
 set env variable `SPRING_ACTIVE_PROFILE￿` to `dev` on startup
@@ -56,7 +56,7 @@ set env variable `SPRING_ACTIVE_PROFILE￿` to `dev` on startup
 `container run -p 8084:8084 --env-file ./env.list --name auth auth-utils-java`<br>
 see [env.list](./env.list) for an example.
 
-#####Change in request
+##### Change in request
 
 Append pararmeters `type` and/or `org` to your jwt request<br>
 ```curl localhost:8084/jwt/read?org=6786876``` 
