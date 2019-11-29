@@ -8,7 +8,7 @@ Module for mocking authentication
 - Maven
 
 ## Running
-The module can be run either as a  jar running on localhost, in a docker container from local image, or a docker container from an 
+The module can be run either as a jar running on localhost, in a docker container from local image, or a docker container from an 
 image hosted on [Informasjonsforvaltnings package repository](https://github.com/orgs/Informasjonsforvaltning/packages)  
 
 ### Setup
@@ -36,38 +36,41 @@ set env variable `SPRING_ACTIVE_PROFILE￿` to `dev` on startup
 #### Change port
 *Default: 8084* <br> 
 
-In commandline<br>
-`java -jar -DPORT=8201 ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`
+- In terminal<br>
+`java -jar -custom.port=8201 ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
-In docker: change hostport mapping <br>
+- In docker: change hostport mapping <br>
 `docker container run -p 8021:8084 --name auth auth-utils-java`￿<br><br>
 
 #### Change access string type
 *format: `[type]:[orgnumber]:[rights]`*<br>
 *default:  `organisation:910244132:[rights]`* <br>
 
-In commandline:
-`java -jar -DTYPE=different ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`<br>
+ - In terminal:<br>
+`java -jar -Dcustom.type=different -Dcustom.org=91919191 ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`<br>
 
-In docker you change type by setting the env variable `TYPE`<br>
-`docker container run -p 8084:8084 -e TYPE='different' --name auth auth-utils-java`
+ - In docker you change type by setting env variables `type`, `port` and `org` <br>
+`docker container run -p 8084:8084 -e type='different' --name auth auth-utils-java`
 
-In request:<br>
-If you need a token for a different organisation or type, you can append pararmeters `type` and `org` to your
-jwt request<br>
+-  In docker with .env file
+`container run -p 8084:8084 --env-file ./env.list --name auth auth-utils-java`<br>
+see [env.list](./env.list) for an example.
+
+#####Change in request
+
+Append pararmeters `type` and/or `org` to your jwt request<br>
 ```curl localhost:8084/jwt/read?org=6786876``` 
 ```curl localhost:8084/jwt/write?org=6786876&type=special``` 
 ```curl localhost:8084/jwt/write?type=special``` 
 
 
-
 ### Audience
 #### Updating audience temporarily
-In commandline seoerated by comma:<br>
-`java -jar -DAUD=other-audience,yet-another-audience ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`<br>
+- In terminal seperated by comma:<br>
+`java -jar -Dcustom.aud=other-audience,yet-another-audience ./target/auth-utils-java-1.0-SNAPSHOT-jar-with-dependencies.jar`<br>
 
-In docker you change type by setting the env variable `AUD`<br>
-`docker container run -p 8084:8084 -e AUD=other-audience,yet-another-audience --name auth auth-utils-java`
+- In docker you change type by setting the env variable `aud`<br>
+`docker container run -p 8084:8084 -e aud=other-audience,yet-another-audience --name auth auth-utils-java`
 
 
 #### Updating audience permanently

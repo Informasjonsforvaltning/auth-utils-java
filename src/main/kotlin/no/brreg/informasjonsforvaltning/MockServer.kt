@@ -5,18 +5,22 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import no.brreg.informasjonsforvaltning.extensions.JwtReadTransformer
 import no.brreg.informasjonsforvaltning.extensions.JwtWriteTransformer
+import no.brreg.informasjonsforvaltning.jwk.AccessStringParts
 import no.brreg.informasjonsforvaltning.jwk.JwkStore
 import no.brreg.informasjonsforvaltning.jwk.JwtToken
+import no.brreg.informasjonsforvaltning.jwk.JwtToken.buildRead
+import no.brreg.informasjonsforvaltning.jwk.JwtToken.buildRoot
+import no.brreg.informasjonsforvaltning.jwk.JwtToken.buildWrite
 
 class MockServer {
     private val mockServer : WireMockServer
-    private val config : ServerConfig;
 
-     constructor(config: ServerConfig){
-        mockServer = WireMockServer(wireMockConfig()
+     constructor(){
+         val port: Int  = (System.getenv("port") ?: System.getProperty("custom.port") ?: "8084").toInt()
+
+         mockServer = WireMockServer(wireMockConfig()
             .extensions(JwtReadTransformer::class.java,JwtWriteTransformer::class.java)
-            .port(config.port))
-        this.config = config
+            .port(port))
     }
 
     fun startMockServer() {
@@ -46,10 +50,19 @@ class MockServer {
 
             mockServer.stubFor(
                 get(urlMatching("/jwt/admin[a-z\\?\\=]*"))
-                    .willReturn(okJson("{ token: ${JwtToken.buildRoot(config.type)}}"))
+                    .willReturn(okJson("{ token: ${JwtToken.buildRoot()}}"))
             )
             mockServer.start()
-            println("Auth server is listening on port ${config.port} with type value ${config.type}")
+            val infoString = JwtToken.config()
+            println("Auth server is listening on port ${mockServer.port()}")
+            println("AccessString values are ${infoString}")
+            println("\n---  READ TOKEN -----")
+            println(buildRead())
+            println("\n---  WRITE TOKEN -----")
+            println(buildWrite())
+            println("\n---  ROOT TOKEN -----")
+            println(buildRoot())
+
         }
     }
 
@@ -59,5 +72,3 @@ class MockServer {
 
     }
 }
-
-data class ServerConfig(val port: Int = 8084, val type : String = "publisher" )

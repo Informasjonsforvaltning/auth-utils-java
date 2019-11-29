@@ -7,8 +7,9 @@ import java.util.*
 
 object JwtToken {
     private var aud : MutableList<String> = mutableListOf<String>("a-backend-service","concept-catalogue","organization-catalogue ","fdk-admin-harvester","registration-api")
-    private var orgNumber : String = "910244132"
+    private var config = AccessStringParts();
 
+    fun config():AccessStringParts = config
     fun addAudience(addValues: String){
         val values = addValues.split(",")
         values.forEach {
@@ -17,23 +18,23 @@ object JwtToken {
         println("[INFO]$addValues added to audience jwt field")
     }
 
-    fun buildRead(type: String?,org: String?): String{
-        val auth = getAccess(type ?: "organization", org ?: orgNumber,Priveliges.READ)
+    fun buildRead(type: String? = config.type, org: String? = config.orgNumber): String{
+        val auth = getAccess(type ?: config.type ,org ?: config.orgNumber, Priveliges.READ)
         return buildToken(auth)
     }
 
-    fun buildWrite(type: String?,org: String?): String{
-        val auth = getAccess(type ?: "organization", org ?: orgNumber,Priveliges.WRITE)
+    fun buildWrite(type: String? = config.type , org: String? = config.orgNumber): String{
+        val auth = getAccess(type ?: config.type, org ?: config.orgNumber,Priveliges.WRITE)
         return buildToken(auth)
     }
-    fun buildRoot(path: String = "organization"): String{
-        val auth = getAccess(type = path, priveliges = Priveliges.ROOT)
+    fun buildRoot(): String{
+        val auth = getAccess(priveliges = Priveliges.ROOT);
         return buildToken(auth)
     }
 
 
     private fun buildToken(auth : String) : String{
-        val claimset = JWTClaimsSet.Builder()
+        val claimSet = JWTClaimsSet.Builder()
                 .audience(aud)
                 .expirationTime(Date(Date().time + 3600 * 3600))
                 .claim("user_name","1924782563")
@@ -43,14 +44,14 @@ object JwtToken {
                 .claim("authorities", auth)
                 .build()
 
-        val signed = SignedJWT(JwkStore.jwtHeader(), claimset)
+        val signed = SignedJWT(JwkStore.jwtHeader(), claimSet)
         signed.sign(JwkStore.signer())
 
         return signed.serialize()
 
     }
 
-    private fun getAccess(type : String, org: String? = orgNumber, priveliges : Priveliges) : String{
+    private fun getAccess(type: String = config.type, org: String = config.orgNumber, priveliges: Priveliges) : String{
         return when (priveliges) {
             Priveliges.READ ->  "$type:$org:${access.ORG_READ}"
             Priveliges.WRITE ->  "$type:$org:${access.ORG_WRITE}"
@@ -62,6 +63,7 @@ object JwtToken {
         val ORG_WRITE = "admin"
         val ROOT = "system:root:admin"
     }
+
 }
 
 enum class Priveliges{
@@ -69,3 +71,5 @@ enum class Priveliges{
     WRITE,
     ROOT
 }
+
+data class AccessStringParts(val type : String = System.getenv("type") ?: System.getProperty("custom.type") ?: "organisation", var orgNumber : String = System.getenv("org") ?: System.getProperty("custom.org") ?:  "910244132" )
